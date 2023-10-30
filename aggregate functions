@@ -1,0 +1,150 @@
+dbl@dbl-OptiPlex-3090:~$ sudo mysql;
+[sudo] password for dbl: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.34-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| aakr               |
+| file               |
+| indra              |
+| information_schema |
+| list               |
+| monitor            |
+| myparth            |
+| mysql              |
+| national           |
+| performance_schema |
+| promo              |
+| rohan              |
+| ru                 |
+| std                |
+| student            |
+| sys                |
+| vitthal            |
++--------------------+
+17 rows in set (0.13 sec)
+
+mysql> use myparth;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> create table customer(cust_id int,cust_name varchar(20),salary int,age int);
+ERROR 1050 (42S01): Table 'customer' already exists
+mysql> select * from customer;
++---------+-----------+--------+------+
+| cust_id | cust_name | salary | age  |
++---------+-----------+--------+------+
+|       1 | lalya     |     20 |   50 |
+|       2 | gotya     |   2000 |   15 |
+|       3 | sonya     |  20400 |   28 |
+|       4 | parth     | 150000 |   30 |
++---------+-----------+--------+------+
+4 rows in set (0.00 sec)
+
+mysql> DELETE FROM customer WHERE cust_id=4;
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from customer;
++---------+-----------+--------+------+
+| cust_id | cust_name | salary | age  |
++---------+-----------+--------+------+
+|       1 | lalya     |     20 |   50 |
+|       2 | gotya     |   2000 |   15 |
+|       3 | sonya     |  20400 |   28 |
++---------+-----------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE customer ADD TABLE cust_city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TABLE cust_city' at line 1
+mysql> ALTER TABLE customer ADD column cust_city;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> ALTER TABLE customer ADD cust_city varchar(20);
+Query OK, 0 rows affected (0.65 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+--------+------+-----------+
+| cust_id | cust_name | salary | age  | cust_city |
++---------+-----------+--------+------+-----------+
+|       1 | lalya     |     20 |   50 | NULL      |
+|       2 | gotya     |   2000 |   15 | NULL      |
+|       3 | sonya     |  20400 |   28 | NULL      |
++---------+-----------+--------+------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> update customer set cust_city=omerga where cust_id=3
+    -> update customer set cust_city=omerga where cust_id=3;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'update customer set cust_city=omerga where cust_id=3' at line 2
+mysql> update customer set cust_city="omerga" where cust_id=3;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer;
++---------+-----------+--------+------+-----------+
+| cust_id | cust_name | salary | age  | cust_city |
++---------+-----------+--------+------+-----------+
+|       1 | lalya     |     20 |   50 | NULL      |
+|       2 | gotya     |   2000 |   15 | NULL      |
+|       3 | sonya     |  20400 |   28 | omerga    |
++---------+-----------+--------+------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select max(salary) from customer;
++-------------+
+| max(salary) |
++-------------+
+|       20400 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select min(age) from customer;
++----------+
+| min(age) |
++----------+
+|       15 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> ^C^C
+
+^C
+mysql> select count(salary) from customer;
++---------------+
+| count(salary) |
++---------------+
+|             3 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) from customer;
++-------------+
+| sum(salary) |
++-------------+
+|       22420 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from customer;
++-------------+
+| avg(salary) |
++-------------+
+|   7473.3333 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> 
