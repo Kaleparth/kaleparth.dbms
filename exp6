@@ -1,0 +1,428 @@
+[sudo] password for mml: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.35-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use classes;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> select * from class;
++----------+-------------------+--------------+---------------+------------+
+| class_id | class_name        | class_course | class_strengh | class_city |
++----------+-------------------+--------------+---------------+------------+
+| 101      | matoshree classes | DBMS         |            35 | kolhapur   |
+| 102      | joshi classes     | C++          |            40 | kolhapur   |
+| 103      | patil classes     | java         |            50 | pune       |
+| 104      | parite classes    | python       |            30 | mumbai     |
++----------+-------------------+--------------+---------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> select class_name from class where class_id=102;
++---------------+
+| class_name    |
++---------------+
+| joshi classes |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select class_name from class where class_name like "a%";
+Empty set (0.00 sec)
+
+mysql> select class_name from class where class_name like "%_a%";
++-------------------+
+| class_name        |
++-------------------+
+| matoshree classes |
+| joshi classes     |
+| patil classes     |
+| parite classes    |
++-------------------+
+4 rows in set (0.00 sec)
+
+mysql> select class_name from class where class_name like "%_a___%";
++-------------------+
+| class_name        |
++-------------------+
+| matoshree classes |
+| joshi classes     |
+| patil classes     |
+| parite classes    |
++-------------------+
+4 rows in set (0.00 sec)
+
+mysql> select class_name from class where class_name like "%_os___%";
++-------------------+
+| class_name        |
++-------------------+
+| matoshree classes |
+| joshi classes     |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> select class_name from class where class_id between 102 AND 105;
++----------------+
+| class_name     |
++----------------+
+| joshi classes  |
+| patil classes  |
+| parite classes |
++----------------+
+3 rows in set (0.00 sec)
+
+mysql> select class_name from class where class_strengh between 40 AND 105;
++---------------+
+| class_name    |
++---------------+
+| joshi classes |
+| patil classes |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> select class_name from class where class_strengh between 40 or 30;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'or 30' at line 1
+mysql> select class_name from class where class_strengh between 40 OR 30;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OR 30' at line 1
+mysql> select class_name from class where class_strengh=40 OR 30;
++-------------------+
+| class_name        |
++-------------------+
+| matoshree classes |
+| joshi classes     |
+| patil classes     |
+| parite classes    |
++-------------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table class add column address;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> alter table class add column address varchar(23);
+Query OK, 0 rows affected (0.39 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from class;
++----------+-------------------+--------------+---------------+------------+---------+
+| class_id | class_name        | class_course | class_strengh | class_city | address |
++----------+-------------------+--------------+---------------+------------+---------+
+| 101      | matoshree classes | DBMS         |            35 | kolhapur   | NULL    |
+| 102      | joshi classes     | C++          |            40 | kolhapur   | NULL    |
+| 103      | patil classes     | java         |            50 | pune       | NULL    |
+| 104      | parite classes    | python       |            30 | mumbai     | NULL    |
++----------+-------------------+--------------+---------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> alter table class drop column address;
+Query OK, 0 rows affected (0.32 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from class;
++----------+-------------------+--------------+---------------+------------+
+| class_id | class_name        | class_course | class_strengh | class_city |
++----------+-------------------+--------------+---------------+------------+
+| 101      | matoshree classes | DBMS         |            35 | kolhapur   |
+| 102      | joshi classes     | C++          |            40 | kolhapur   |
+| 103      | patil classes     | java         |            50 | pune       |
+| 104      | parite classes    | python       |            30 | mumbai     |
++----------+-------------------+--------------+---------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> select sum(class_strengh) from class;
++--------------------+
+| sum(class_strengh) |
++--------------------+
+|                155 |
++--------------------+
+1 row in set (0.02 sec)
+
+mysql> select avg(class_strengh) from class;
++--------------------+
+| avg(class_strengh) |
++--------------------+
+|            38.7500 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(class_strengh) from class;
++----------------------+
+| count(class_strengh) |
++----------------------+
+|                    4 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> select max(class_strengh) from class;
++--------------------+
+| max(class_strengh) |
++--------------------+
+|                 50 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select min(class_strengh) from class;
++--------------------+
+| min(class_strengh) |
++--------------------+
+|                 30 |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(class_course),class_city from class group by class_city;
++---------------------+------------+
+| count(class_course) | class_city |
++---------------------+------------+
+|                   2 | kolhapur   |
+|                   1 | pune       |
+|                   1 | mumbai     |
++---------------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select count(class_course),class_city from class group by class_city having class_id>02;
+ERROR 1054 (42S22): Unknown column 'class_id' in 'having clause'
+mysql> select count(class_course),class_city from class group by class_city having count(class_course)>1;
++---------------------+------------+
+| count(class_course) | class_city |
++---------------------+------------+
+|                   2 | kolhapur   |
++---------------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select count(class_course),class_city,class_course from class group by class_city having count(class_course)>1;
+ERROR 1055 (42000): Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'classes.class.class_course' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select count(class_course),class_city from class group by class_city having count(class_course)>1;
++---------------------+------------+
+| count(class_course) | class_city |
++---------------------+------------+
+|                   2 | kolhapur   |
++---------------------+------------+
+1 row in set (0.00 sec)
+
+mysql> create table student(class_id int,stu_id int,stu_name varchar(30),stu_fee int);
+Query OK, 0 rows affected (1.05 sec)
+
+mysql> insert into student values(101,1,"swapnil",2300);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into student values(102,2,"rahul",2400);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into student values(103,3,"raj",2500);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into student values(104,4,"rahul",2400);
+Query OK, 1 row affected (0.11 sec)
+
+mysql> select * from student;
++----------+--------+----------+---------+
+| class_id | stu_id | stu_name | stu_fee |
++----------+--------+----------+---------+
+|      101 |      1 | swapnil  |    2300 |
+|      102 |      2 | rahul    |    2400 |
+|      103 |      3 | raj      |    2500 |
+|      104 |      4 | rahul    |    2400 |
++----------+--------+----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select stu_id from class inner join student on class.class_id=student.class_id;
++--------+
+| stu_id |
++--------+
+|      1 |
+|      2 |
+|      3 |
+|      4 |
++--------+
+4 rows in set (0.00 sec)
+
+mysql> select stu_id from class inner join student on class.class_id=student.class_id where class_course=DBMS;
+ERROR 1054 (42S22): Unknown column 'DBMS' in 'where clause'
+mysql> select stu_id from class inner join student on class.class_id=student.class_id where class_course="DBMS";
++--------+
+| stu_id |
++--------+
+|      1 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select stu_name from class inner join student on class.class_id=student.class_id where class_course="DBMS";
++----------+
+| stu_name |
++----------+
+| swapnil  |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select stu_name from class inner join student on class.class_id=student.class_id where class_strengh between 30 AND 45";
+    "> select stu_name from class inner join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
+    "> 
+    "> 
+    "> select stu_name from class inner join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
+    "> select stu_name from class inner join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
+    "> ^C
+
+^C
+mysql> select stu_name from class inner join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
++----------+
+| stu_name |
++----------+
+| swapnil  |
+| rahul    |
+| rahul    |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select stu_name from class left join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
++----------+
+| stu_name |
++----------+
+| swapnil  |
+| rahul    |
+| rahul    |
++----------+
+3 rows in set (0.01 sec)
+
+mysql> select stu_name from class left join student on class.class_id=student.class_id where class_strengh between 30 | 102      | joshi classes     | C++          |            40 | kolhapur   | NULL    |AND 45;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'classes     | C++          |            40 | kolhapur   | NULL    |AND 45' at line 1
+mysql> | 103      | patil classes     | java         |            50 | pune       | NULL    |
+    -> | 104      | parite classes    | python       |            30 | mumbai     | NULL    |
+    -> +----------+-------------------+--------------+-----| 102      | joshi classes     | C++          |            40 | kolhapur   | NULL    |
+    -> | 103      | patil classes     | java         |            50 | pune       | NULL    |
+    -> | 104      | parite classes    | python       |            30 | mumbai     | NULL    |
+    -> +----------+-------------------+--------------+-----| 102      | joshi classes     | C++          |            40 | kolhapur   | NULL    |
+    -> | 103      | patil classes     | java         |            50 | pune       | NULL    |
+    -> | 104      | parite classes    | python       |            30 | mumbai     | NULL    |
+    -> +----------+-------------------+--------------+-----
+    -> c
+    -> 
+
+^C
+mysql> select stu_name from class left outer join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
++----------+
+| stu_name |
++----------+
+| swapnil  |
+| rahul    |
+| rahul    |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> select from class left outer join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from class left outer join student on class.class_id=student.class_id where clas' at line 1
+mysql> select  stu_name,stu_fee,stu_id from class left outer join student on class.class_id=student.class_id where class_strengh between 30 AND 45;
++----------+---------+--------+
+| stu_name | stu_fee | stu_id |
++----------+---------+--------+
+| swapnil  |    2300 |      1 |
+| rahul    |    2400 |      2 |
+| rahul    |    2400 |      4 |
++----------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select  stu_name,stu_fee,stu_id,class_course from class left outer join student on class.class_id=student.class_id where class_strengh between
+30 AND 45;
++----------+---------+--------+--------------+
+| stu_name | stu_fee | stu_id | class_course |
++----------+---------+--------+--------------+
+| swapnil  |    2300 |      1 | DBMS         |
+| rahul    |    2400 |      2 | C++          |
+| rahul    |    2400 |      4 | python       |
++----------+---------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select stu_id from class inner join student on class.class_id=student.class_id where class_id in (101,103);
+ERROR 1052 (23000): Column 'class_id' in where clause is ambiguous
+mysql> select stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
++--------+
+| stu_id |
++--------+
+|      1 |
+|      3 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
++--------+
+| stu_id |
++--------+
+|      1 |
+|      3 |
++--------+
+2 rows in set (0.00 sec)
+
+mysql> select stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103) union select stu_name from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
++---------+
+| stu_id  |
++---------+
+| 1       |
+| 3       |
+| swapnil |
+| raj     |
++---------+
+4 rows in set (0.00 sec)
+
+mysql> select stu_name,stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103) union select stu_name,stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
++----------+--------+
+| stu_name | stu_id |
++----------+--------+
+| swapnil  |      1 |
+| raj      |      3 |
++----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select stu_name,stu_id from class left join student on class.class_id=student.class_id where class.class_id in (101,103) union select stu_name,stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
++----------+--------+
+| stu_name | stu_id |
++----------+--------+
+| swapnil  |      1 |
+| raj      |      3 |
++----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select stu_name,stu_id from class right join student on class.class_id=student.class_id where class.class_id in (101,103) union select stu_name,stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
++----------+--------+
+| stu_name | stu_id |
++----------+--------+
+| swapnil  |      1 |
+| raj      |      3 |
++----------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select stu_name,stu_id from class full outer join student on class.class_id=student.class_id where class.class_id in (101,103) union select stu_name,stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outer join student on class.class_id=student.class_id where class.class_id in (1' at line 1
+mysql> select stu_name,stu_id from class full outer join student on class.class_id=student.class_id where class.class_id in (101,103) union select stu_name,stu_id from class inner join student on class.class_id=student.class_id where class.class_id in (101,103);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'outer join student on class.class_id=student.class_id where class.class_id in (1' at line 1
+mysql> select count(stu_id),class_city from class inner join student on class.class_id=student.class_id group by class_city;
++---------------+------------+
+| count(stu_id) | class_city |
++---------------+------------+
+|             2 | kolhapur   |
+|             1 | pune       |
+|             1 | mumbai     |
++---------------+------------+
+3 rows in set (0.01 sec)
+
+mysql> select count(stu_id),class_city from class inner join student on class.class_id=student.class_id group by class_city;
++---------------+------------+
+| count(stu_id) | class_city |
++---------------+------------+
+|             2 | kolhapur   |
+|             1 | pune       |
+|             1 | mumbai     |
++---------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
